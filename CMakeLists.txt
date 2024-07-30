@@ -25,6 +25,7 @@ find_package(OpenCV REQUIRED)
 
 # 添加头文件
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # 源文件在src目录下
 file(GLOB SRC_FILES "src/*.cpp")
