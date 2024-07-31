@@ -17,29 +17,23 @@ BUILD_DIR := ./build
 
 # 找到我们要编译的所有C和C++文件
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp')
-OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 LOCAL_INCLUDE := -I./include
 OPENCV_INCLUDE := -I/usr/include/opencv4
 OPENCV_LIBS := -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs -lopencv_videoio
 
-all:
-	mkdir -p $(BUILD_DIR)
-	make $(BUILD_DIR)/camera_setting
-	make $(BUILD_DIR)/basic_color_proc
-	@echo "Build all complete"
+# 每个源文件都有一个对应的可执行文件
+TARGETS := $(SRCS:%.cpp=$(BUILD_DIR)/%.out)
 
-$(BUILD_DIR)/camera_setting: ./src/01_camera_setting.cpp
-	@echo "Building camera_setting"
-	g++ -o $(BUILD_DIR)/camera_setting ./src/01_camera_setting.cpp $(LOCAL_INCLUDE) $(OPENCV_INCLUDE) $(OPENCV_LIBS) -std=c++11
-	@echo "Build complete"
 
-$(BUILD_DIR)/basic_color_proc: ./src/02_basic_color_proc.cpp
-	@echo "Building basic_color_proc"
-	g++ -o $(BUILD_DIR)/basic_color_proc ./src/02_basic_color_proc.cpp $(OPENCV_INCLUDE) $(LOCAL_INCLUDE) $(OPENCV_LIBS) -std=c++11
-	@echo "Build complete"
+all: $(TARGETS)
+	@echo "Build finished"
+
+$(BUILD_DIR)/%.out: %.cpp
+	@mkdir -p $(dir $@)
+	g++ -std=c++11 $(LOCAL_INCLUDE) $(OPENCV_INCLUDE) $< -o $@ $(OPENCV_LIBS)
 
 clean:
-	rm -rf camera_setting basic_color_proc
+	rm -rf $(BUILD_DIR)
 
 .PHONY: all clean

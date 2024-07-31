@@ -19,6 +19,7 @@
 #include <iostream>
 
 #define CAMERA "../resources/OnlyBasketball.mp4"
+#define IMAGE "../resources/kun.png"
 
 #endif
 

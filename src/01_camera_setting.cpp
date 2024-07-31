@@ -40,7 +40,7 @@ int main () {
     // 创建窗口
     cv::namedWindow("Camera", cv::WINDOW_AUTOSIZE);  
     // 第二个参数是窗口大小，可以是cv::WINDOW_NORMAL（可以resize） 
-        // 或者 cv::WINDOW_AUTOSIZE（不可以resize，根据图片大小确定窗口大小）
+        // 或者 cv::WINDOW_AUTOSIZE（不可以resize，根据图片大小确定窗口大小）   常用的就这两
 
     // 读取摄像头
     cv::Mat frame;

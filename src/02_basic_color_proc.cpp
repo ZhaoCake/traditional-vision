@@ -42,6 +42,12 @@ int main () {
         // 创建掩码
         cv::inRange(hsv, cv::Scalar(0, 100, 100), cv::Scalar(10, 255, 255), mask);
 
+        // 窗口全部为normal
+        cv::namedWindow("Camera", cv::WINDOW_NORMAL);
+        cv::namedWindow("Gray", cv::WINDOW_NORMAL);
+        cv::namedWindow("HSV", cv::WINDOW_NORMAL);
+        cv::namedWindow("Mask", cv::WINDOW_NORMAL);
+
         cv::imshow("Camera", frame);
         cv::imshow("Gray", gray);
         cv::imshow("HSV", hsv);
