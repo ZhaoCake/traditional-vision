@@ -18,6 +18,11 @@
 #include "general.hpp"
 #include <vector>
 
+struct Circle {
+    cv::Point2f center;
+    float radius;
+};
+
 /** @brief: 根据颜色分割，得到二值图像需要颜色分割和形态学操作
 * @param: frame: 输入的三通道图像
 * @param: mask: 处理后的二值图像
@@ -34,7 +39,7 @@ void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour, bool &succe
  * @param: frame: 输入的三通道图像
  * @param: contour: 输入的轮廓
  */
-void draw_circle(cv::Mat &frame, std::vector<cv::Point> &contour);
+Circle draw_circle(cv::Mat &frame, std::vector<cv::Point> &contour);
 
 
 #endif

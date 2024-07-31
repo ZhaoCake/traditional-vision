@@ -65,40 +65,27 @@ Circle draw_circle(cv::Mat &frame, std::vector<cv::Point> &contour) {
 }
 
 int main() {
-    cv::VideoCapture cap(CAMERA);
-    if (!cap.isOpened()) {
-        std::cerr << "Error: cannot open camera!" << std::endl;
+    // 仅对图像进行处理
+    cv::Mat frame = cv::imread(IMAGE);
+    if (frame.empty()) {
+        std::cerr << "Error: cannot load image!" << std::endl;
         return -1;
     }
 
-    cv::Mat frame, mask;  
-    // 注意，在OpenCV中一般是不使用共享指针的，而是直接传递引用，因为OpenCV中的Mat类是一个智能指针，会自动管理内存
-    // 并且如果使用new分配空间，创建普通指针，那么引用计数就不起作用了，可能造成内存泄漏
+    cv::Mat mask;
+    color_segmentation(frame, mask);
+
     std::vector<cv::Point> contour;
+    bool success = true;
+    choose_contours(mask, contour, success);
 
-    cv::namedWindow("frame", cv::WINDOW_NORMAL);
-    cv::namedWindow("mask", cv::WINDOW_NORMAL);
-
-    while (true) {
-        cap >> frame;
-        if (frame.empty()) {
-            std::cerr << "Error: cannot read frame!" << std::endl;
-            break;
-        }
-
-        color_segmentation(frame, mask);
-        bool success = true;
-        choose_contours(mask, contour, success); // 如果没有合适的轮廓，我们就不需要画圆了，会报错
-        if (success) draw_circle(frame, contour);
-
-        cv::imshow("frame", frame);
-        cv::imshow("mask", mask);
-        if (cv::waitKey(30) == 27) {
-            break;
-        }
+    if (success) {
+        Circle circle;
+        circle = draw_circle(frame, contour);
+        std::cout << "center: " << circle.center << ", radius: " << circle.radius << std::endl;
     }
 
-    cap.release();
-    cv::destroyAllWindows();
-    return 0;
+    // cv::imshow("frame", frame);
+    // cv::imshow("mask", mask);
+    // cv::waitKey(0);
 }
