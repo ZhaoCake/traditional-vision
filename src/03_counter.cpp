@@ -25,7 +25,7 @@ void color_segmentation(cv::Mat &frame, cv::Mat &mask) {
     cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);  // 闭操作：先膨胀后腐蚀——去除检测到的小区域的黑噪点
 }
 
-void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour) {
+void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour, bool &success) {
     std::vector<std::vector<cv::Point>> contours;
     cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);  // [查找轮廓](https://docs.opencv.org/4.x/d3/dc0/group__imgproc__shape.html#gae4156f04053c44f886e387cff0ef6e08)
     // cv::RETR_EXTERNAL: 只检测外轮廓(mode)
@@ -37,10 +37,15 @@ void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour) {
     int max_index = 0;
     for (int i = 0; i < contours.size(); i++) {
         double area = cv::contourArea(contours[i]);  // 计算轮廓的面积
-        if (area > max_area) {
+        if (area > max_area && area > 200) {  // 保留面积大于200的轮廓
             max_area = area;
             max_index = i;
         }
+    }
+
+    if (max_area == 0) {
+        success = false;
+        return;
     }
 
     contour = contours[max_index];
@@ -76,7 +81,8 @@ int main() {
         }
 
         color_segmentation(frame, mask);
-        choose_contours(mask, contour);
+        bool success = true;
+        choose_contours(mask, contour, success);
         draw_circle(frame, contour);
 
         cv::imshow("frame", frame);

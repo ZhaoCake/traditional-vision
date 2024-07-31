@@ -28,7 +28,7 @@ void color_segmentation(cv::Mat &frame, cv::Mat &mask);
 * @param: mask: 输入的二值图像
 * @param: contours: 输出的轮廓
 */
-void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour);
+void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour, bool &success);
 
 /** @brief: 已经找到了轮廓，则我们可以计算轮廓的外接圆或外接矩形或其他信息来显示到图像上
  * @param: frame: 输入的三通道图像
