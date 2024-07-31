@@ -17,12 +17,13 @@
 void color_segmentation(cv::Mat &frame, cv::Mat &mask) {
     cv::Mat hsv;
     cv::cvtColor(frame, hsv, cv::COLOR_BGR2HSV);  // 转换为HSV色彩空间, 因为HSV色彩空间对光照相对不敏感
-    cv::inRange(hsv, cv::Scalar(0, 43, 46), cv::Scalar(34, 255, 255), mask);  // 提取出黄色区域
+    cv::inRange(hsv, cv::Scalar(0, 43, 46), cv::Scalar(50, 255, 255), mask);  // 提取出黄色区域
 
     cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));  // 定义结构元素  3x3的卷积核  
     // 简单介绍一下图像的卷积：卷积核在图像上滑动，对应位置的像素值相乘再相加，得到的值替换原来的像素值 —— 所以大量的形态学操作都是以卷积为基础的
-    cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);  // 开操作：先腐蚀后膨胀——去除不在黄色区域的白噪点
+    
     cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);  // 闭操作：先膨胀后腐蚀——去除检测到的小区域的黑噪点
+    cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);  // 开操作：先腐蚀后膨胀——去除不在黄色区域的白噪点
 }
 
 void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour, bool &success) {
@@ -37,7 +38,7 @@ void choose_contours(cv::Mat &mask, std::vector<cv::Point> &contour, bool &succe
     int max_index = 0;
     for (int i = 0; i < contours.size(); i++) {
         double area = cv::contourArea(contours[i]);  // 计算轮廓的面积
-        if (area > max_area && area > 200) {  // 保留面积大于200的轮廓
+        if (area > max_area && area > 300) {  // 保留面积大于500的轮廓
             max_area = area;
             max_index = i;
         }
@@ -82,8 +83,8 @@ int main() {
 
         color_segmentation(frame, mask);
         bool success = true;
-        choose_contours(mask, contour, success);
-        draw_circle(frame, contour);
+        choose_contours(mask, contour, success); // 如果没有合适的轮廓，我们就不需要画圆了，会报错
+        if (success) draw_circle(frame, contour);
 
         cv::imshow("frame", frame);
         cv::imshow("mask", mask);

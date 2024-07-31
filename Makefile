@@ -25,15 +25,37 @@ OPENCV_LIBS := -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_imgcodec
 # 每个源文件都有一个对应的可执行文件
 TARGETS := $(SRCS:%.cpp=$(BUILD_DIR)/%.out)
 
-
 all: $(TARGETS)
 	@echo "Build finished"
 
 $(BUILD_DIR)/%.out: %.cpp
 	@mkdir -p $(dir $@)
-	g++ -std=c++11 $(LOCAL_INCLUDE) $(OPENCV_INCLUDE) $< -o $@ $(OPENCV_LIBS)
+	g++ -std=c++11 -g $(LOCAL_INCLUDE) $(OPENCV_INCLUDE) $< -o $@ $(OPENCV_LIBS)
+
+run_contour:  # 每次都要进去build目录运行，太麻烦了
+	@make all  # 最好是针对contour单独写个目标，不过这里我们基本不会改前面两个，或者改动成本很低，所以就这样了
+	@cd build && ./src/03_contour.out
+	@cd ..
+
+gdb_contour:
+	@make all
+	@cd build && gdb ./src/04_contour.out
+	@cd ..
+
+sysinfo:  # 打印系统信息, makefile除了编译，还可以做很多事情，方便你的工作
+	@echo "System Information:"
+	@echo "OS: $(shell uname -s)"
+	@echo "Kernel Version: $(shell uname -r)"
+	@echo "Processor: $(shell uname -p)"
+	@echo "Machine: $(shell uname -m)"
+	@echo "System: $(shell uname -o)"
+	@echo "Version: $(shell uname -v)"
+	@echo "Release: $(shell uname -r)"
+	@echo "Hostname: $(shell uname -n)"
+
+	@fastfetch
 
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean
+.PHONY: all clean run_contour sysinfo
