@@ -12,22 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef __GENERAL_HPP__
-#define __GENERAL_HPP__
+#ifndef __CONFIG_HPP__
+#define __CONFIG_HPP__
 
+#include <nlohmann/json.hpp>
+#include <fstream>
 #include <opencv2/opencv.hpp>
-#include <iostream>
-#include "config.hpp"
 
-#define CAMERA "../resources/OnlyBasketball.mp4"
-#define IMAGE "../resources/kun.png"
+class Config {
+public:
+    Config(std::string path);
+    ~Config() = default;
 
-#define CONFIG "../config/config.yaml"
+    void load();
 
-// 通过宏配置参数
-// #define KERNEL_SIZE 3  // 改为通过配置文件读取
+    void save();
 
-Config config(CONFIG);
+    void get_bound(cv::Scalar &lower_bound, cv::Scalar &upper_bound);
 
+    void set_bound(const cv::Scalar &lower_bound, const cv::Scalar &upper_bound);
+
+    void set_kernel_size(int kernel_size);
+
+    int get_kernel_size();
+
+private:
+    cv::Scalar lower_bound;
+    cv::Scalar upper_bound;
+
+    int kernel_size;
+
+    // 配置文件的路径
+    std::string path;
+};
 #endif
-
