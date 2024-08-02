@@ -3,13 +3,13 @@
     "image": "../resources/kun.png",
     "kernel_size": 3,
     "lower_bound": [
-        0.0,
-        34.0,
-        60.0
+        0,
+        36,
+        129
     ],
     "upper_bound": [
-        34.0,
-        255.0,
-        255.0
+        89,
+        232,
+        255
     ]
 }
