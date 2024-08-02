@@ -17,17 +17,11 @@
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
-#include "config.hpp"
+#include "config.hpp"  
 
-#define CAMERA "../resources/OnlyBasketball.mp4"
-#define IMAGE "../resources/kun.png"
+extern Config config;
 
-#define CONFIG "../config/config.yaml"
-
-// 通过宏配置参数
-// #define KERNEL_SIZE 3  // 改为通过配置文件读取
-
-Config config(CONFIG);
+#define CAMERA config.get_camera()
+#define IMAGE config.get_image()
 
 #endif
-

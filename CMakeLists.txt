@@ -27,15 +27,26 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-# 源文件在src目录下
-file(GLOB SRC_FILES "src/*.cpp")
+# 输出路径
 
-# 生成目标文件
-foreach(SRC_FILE ${SRC_FILES})
-    get_filename_component(TARGET_NAME ${SRC_FILE} NAME_WE)
-    add_executable(${TARGET_NAME} ${SRC_FILE})
-    target_link_libraries(${TARGET_NAME} ${OpenCV_LIBS})
 
-    # 设置输出路径
-    set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-endforeach()
+# # 源文件在src目录下
+# file(GLOB SRC_FILES "src/*.cpp" )
+
+# # 生成目标文件
+# foreach(SRC_FILE ${SRC_FILES})
+#     get_filename_component(TARGET_NAME ${SRC_FILE} NAME_WE)
+#     add_executable(${TARGET_NAME} ${SRC_FILE} "src/config/config.cpp" "src/contour/contour_finder.cpp")
+#     target_link_libraries(${TARGET_NAME} ${OpenCV_LIBS})
+
+#     # 设置输出路径
+#     set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# endforeach()
+
+# 生成目标文件(排除1234)
+add_executable(contour_inst "src/05_contour_inst.cpp" "src/config/config.cpp" "src/contour/contour_finder.cpp")
+target_link_libraries(contour_inst ${OpenCV_LIBS})
+
+# 设置输出路径
+set_target_properties(contour_inst PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+

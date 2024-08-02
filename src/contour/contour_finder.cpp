@@ -16,7 +16,6 @@
 
 // 构造函数
 ContourFinder::ContourFinder() {
-    config.load();  // 读取配置文件
     config.get_bound(ContourFinder::lower_bound, ContourFinder::upper_bound);  // 获取颜色阈值
     int size = config.get_kernel_size();  // 获取卷积核大小
     kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(size, size));  // 创建卷积核

@@ -14,8 +14,8 @@
 
 #include "config.hpp"
 
-Config::Config(std::string path) {
-    path = path;
+Config::Config() {
+    load();
 }
 
 void Config::load() {
@@ -53,6 +53,19 @@ void Config::load() {
         kernel_size = 3;
     }
 
+    // 原本的CAMERA和IMAGE宏定义
+    if (j.find("camera") != j.end()) {
+        camera = j["camera"];
+    } else {
+        camera = "../resources/OnlyBasketball.mp4";
+    }
+
+    if (j.find("image") != j.end()) {
+        image = j["image"];
+    } else {
+        image = "../resources/kun.png";
+    }
+
     file.close();
 }
 
@@ -62,6 +75,9 @@ void Config::save() {
     j["lower_bound"] = {lower_bound[0], lower_bound[1], lower_bound[2]};
     j["upper_bound"] = {upper_bound[0], upper_bound[1], upper_bound[2]};
     j["kernel_size"] = kernel_size;
+
+    j["camera"] = camera;
+    j["image"] = image;
 
     std::ofstream file(path);
     file << j.dump(4);
@@ -85,3 +101,21 @@ void Config::set_kernel_size(int kernel_size) {
 int Config::get_kernel_size() {
     return kernel_size;
 }
+
+void Config::set_camera(const std::string &camera) {
+    this->camera = camera;
+}
+
+std::string Config::get_camera() {
+    return camera;
+}
+
+void Config::set_image(const std::string &image) {
+    this->image = image;
+}
+
+std::string Config::get_image() {
+    return image;
+}
+
+Config config = Config();

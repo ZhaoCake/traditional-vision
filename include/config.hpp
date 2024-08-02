@@ -19,12 +19,12 @@
 #include <fstream>
 #include <opencv2/opencv.hpp>
 
+#define CONFIG "/home/cake/traditional-vision/config/config.json"  
+
 class Config {
 public:
-    Config(std::string path);
+    Config();
     ~Config() = default;
-
-    void load();
 
     void save();
 
@@ -36,6 +36,14 @@ public:
 
     int get_kernel_size();
 
+    void set_camera(const std::string &camera);
+
+    std::string get_camera();
+
+    void set_image(const std::string &image);
+
+    std::string get_image();
+
 private:
     cv::Scalar lower_bound;
     cv::Scalar upper_bound;
@@ -43,6 +51,10 @@ private:
     int kernel_size;
 
     // 配置文件的路径
-    std::string path;
+    std::string path = CONFIG;
+    std::string camera, image;
+    
+    void load();
 };
+
 #endif
