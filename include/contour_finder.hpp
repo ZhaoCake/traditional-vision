@@ -31,6 +31,7 @@ public:
 
     void color_segmentation(); // cv::Mat &frame, cv::Mat &mask
     bool choose_contours(); // cv::Mat &mask, std::vector<cv::Point> &contour, bool &success  ：原本是void，传入一个bool引用；现在改为返回bool值
+    cv::Rect2d get_bounding_box();
     void draw_circle();
     void set_color(cv::Scalar lower_bound, cv::Scalar upper_bound);
 

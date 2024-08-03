@@ -52,6 +52,14 @@ gdb: gdb-build  # 还未验证
 hsv: 
 	@python3 scripts/hsv.py $(CONFIG_FILE) $(IMAGE_FILE)
 
+on_mouse:
+	@python3 scripts/on_mouse.py $(IMAGE_FILE)
+
+init_contour:
+	@echo "init contour..."
+	@mkdir -p resources/contour
+	@rm resources/contour/*.jpg
+
 # 清理构建目录
 clean:
 	@rm -rf $(BUILD_DIR)

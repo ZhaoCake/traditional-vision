@@ -14,12 +14,20 @@
 
 #include "contour_finder.hpp"
 
+#ifdef CONFIG  // 为了应对单独使用这个类而不通过CONFIG的情况，这里加上了这个宏
 // 构造函数
 ContourFinder::ContourFinder() {
     config.get_bound(ContourFinder::lower_bound, ContourFinder::upper_bound);  // 获取颜色阈值
     int size = config.get_kernel_size();  // 获取卷积核大小
     kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(size, size));  // 创建卷积核
 }
+#else 
+ContourFinder::ContourFinder() {
+    lower_bound = cv::Scalar(20, 100, 100);  // 设置颜色阈值
+    upper_bound = cv::Scalar(30, 255, 255);
+    kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));  // 创建卷积核
+}
+#endif
 
 
 // 主要逻辑部分
@@ -57,4 +65,11 @@ bool ContourFinder::choose_contours() {
 void ContourFinder::draw_circle() { 
     // draw的时候就好好draw
     cv::circle(ContourFinder::frame, circle.center, circle.radius, cv::Scalar(0, 255, 0), 2);  // 画出最小外接圆
+}
+
+cv::Rect2d ContourFinder::get_bounding_box() {
+    if (ContourFinder::contour.empty()) {
+        return cv::Rect2d(0, 0, 0, 0);
+    }
+    return cv::boundingRect(ContourFinder::contour);  // 计算轮廓的外接矩形
 }
