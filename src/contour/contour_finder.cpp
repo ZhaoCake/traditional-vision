@@ -32,12 +32,14 @@ ContourFinder::ContourFinder() {
 
 // 主要逻辑部分
 
-void ContourFinder::color_segmentation() {
+cv::Mat ContourFinder::color_segmentation() {
     cv::cvtColor(ContourFinder::frame, ContourFinder::hsv, cv::COLOR_BGR2HSV);  // 转换为HSV色彩空间, 因为HSV色彩空间对光照相对不敏感
     cv::inRange(ContourFinder::hsv, ContourFinder::lower_bound, ContourFinder::upper_bound, ContourFinder::mask);  // 提取出特定颜色区域
 
     cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);  // 闭操作：先膨胀后腐蚀——去除检测到的小区域的黑噪点
     cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);  // 开操作：先腐蚀后膨胀——去除不在黄色区域的白噪点
+
+    return mask;
 }
 
 bool ContourFinder::choose_contours() {

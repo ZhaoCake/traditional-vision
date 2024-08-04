@@ -43,10 +43,21 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 #     set_target_properties(${TARGET_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # endforeach()
 
-# 生成目标文件(排除1234)
+# 生成目标文件(05)
 add_executable(contour_inst "src/05_contour_inst.cpp" "src/config/config.cpp" "src/contour/contour_finder.cpp")
 target_link_libraries(contour_inst ${OpenCV_LIBS})
-
 # 设置输出路径
 set_target_properties(contour_inst PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# 生成目标文件(06)
+add_executable(backsub "src/06_backsub.cpp" "src/config/config.cpp" "src/contour/contour_finder.cpp")
+target_link_libraries(backsub ${OpenCV_LIBS})
+# 设置输出路径
+set_target_properties(backsub PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# 生成目标文件(07)
+add_executable(svm "src/07_svm.cpp" "src/config/config.cpp" "src/contour/contour_finder.cpp")
+target_link_libraries(svm ${OpenCV_LIBS})
+# 设置输出路径
+set_target_properties(svm PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 

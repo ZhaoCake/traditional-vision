@@ -19,7 +19,7 @@ import json
 import sys
 import numpy as np
 
-def main(config_path, img_path):
+def main(config_path, video_path):
     # 读取JSON文件
     with open(config_path, 'r') as f:
         config = json.load(f)
@@ -29,7 +29,7 @@ def main(config_path, img_path):
 
 
     # 创建一个窗口
-    cv2.namedWindow('hsv')
+    cv2.namedWindow('hsv', cv2.WINDOW_NORMAL)
 
     # 创建六个滑动条，分别是H, S, V的下界和上界
     cv2.createTrackbar('H_lower', 'hsv', lower_bound[0], 180, lambda x: None)
@@ -39,14 +39,18 @@ def main(config_path, img_path):
     cv2.createTrackbar('S_upper', 'hsv', upper_bound[1], 255, lambda x: None)
     cv2.createTrackbar('V_upper', 'hsv', upper_bound[2], 255, lambda x: None)
 
-    # 读取一张图片
-    img = cv2.imread(image_path)
+    cap = cv2.VideoCapture(video_path)
 
     while True:
-        # 将图片转换为HSV格式
+        ret, img = cap.read()
+        # 如果读取帧失败，则可能已经到达视频末尾
+        if not ret:
+            # 重新设置视频文件的读取位置到开始
+            cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            continue
+
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-        # 读取滑动条的值
         lower_bound = np.array([cv2.getTrackbarPos('H_lower', 'hsv'),
                                 cv2.getTrackbarPos('S_lower', 'hsv'),
                                 cv2.getTrackbarPos('V_lower', 'hsv')])
@@ -54,17 +58,13 @@ def main(config_path, img_path):
                                 cv2.getTrackbarPos('S_upper', 'hsv'),
                                 cv2.getTrackbarPos('V_upper', 'hsv')])
 
-        # 创建一个掩膜
         mask = cv2.inRange(hsv, lower_bound, upper_bound)
-
-        # 将掩膜和原图进行按位与操作
         res = cv2.bitwise_and(img, img, mask=mask)
 
-        # 显示图片
         cv2.imshow('hsv', res)
 
-        # 按下ESC键退出
-        if cv2.waitKey(1) == 27:
+        # 设置视频徐循环播放
+        if cv2.waitKey(33) == 27:
             break
 
     cv2.destroyAllWindows()
@@ -79,5 +79,5 @@ def main(config_path, img_path):
 if __name__ == '__main__':
     # 读取命令行参数
     config_path = sys.argv[1]
-    image_path = sys.argv[2]
-    main(config_path, image_path)
+    video_path = sys.argv[2]
+    main(config_path, video_path)

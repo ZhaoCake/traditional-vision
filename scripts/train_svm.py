@@ -15,33 +15,62 @@
 # 使用resources文件夹中的图片, 训练一个opencv的SVM分类器，并保存为cpp的OpenCV能够使用的模型
 import cv2
 import numpy as np
-import json
-import sys
+
+# 正样本路径：resources/contour
+# 负样本路径：resources/non_contour  人工创造负样本
+
+# 创建64x64的负样本噪声图片
+def create_negative_samples():
+    for i in range(300):
+        img = np.random.randint(0, 256, (256, 256, 3), dtype=np.uint8)
+        cv2.imwrite(f'resources/non_contour/{i}.png', img)
 
 def main():
-    # 读取图片  # 还要再整一些负样本
-    img = cv2.imread('resources/lena.jpg')
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # 读取正样本: resources/contour中的全部文件，需要先读取文件列表，然后读取图片
+    pos_samples = []
+    for i in range(300):
+        img = cv2.imread(f'resources/contour/roi{i}.jpg')
+        img = cv2.resize(img, (256, 256))
+        pos_samples.append(img)
 
-    # 读取标签
-    with open('resources/labels.json', 'r') as f:
-        labels = json.load(f)
+    # 读取负样本：resources/non_contour中的全部文件
+    create_negative_samples()
+    neg_samples = []
+    for i in range(300):
+        img = cv2.imread(f'resources/non_contour/{i}.png')
+        neg_samples.append(img)
 
-    # 读取特征
-    with open('resources/features.json', 'r') as f:
-        features = json.load(f)
+    # 提取HOG特征, 64x64的窗口，16x16的block，8x8的cell，9个方向
+    hog = cv2.HOGDescriptor((64, 64), (16, 16), (8, 8),
+                            (8, 8), 9)
+    pos_features = []
+    for img in pos_samples:
+        pos_features.append(hog.compute(img).flatten())
+    pos_features = np.array(pos_features, dtype=np.float32)
 
-    # 创建一个SVM分类器
+    neg_features = []
+    for img in neg_samples:
+        neg_features.append(hog.compute(img).flatten())
+    neg_features = np.array(neg_features, dtype=np.float32)
+
+    # 创建标签
+    pos_labels = np.ones((pos_features.shape[0], 1), dtype=np.int32)
+    neg_labels = np.zeros((neg_features.shape[0], 1), dtype=np.int32)
+
+    # 合并正负样本
+    features = np.vstack((pos_features, neg_features))
+    labels = np.vstack((pos_labels, neg_labels))
+
+    # 训练SVM
     svm = cv2.ml.SVM_create()
-    svm.setType(cv2.ml.SVM_C_SVC)
+    # 设置非线性SVM
     svm.setKernel(cv2.ml.SVM_LINEAR)
-    svm.setTermCriteria((cv2.TERM_CRITERIA_MAX_ITER, 100, 1e-6))
+    svm.setType(cv2.ml.SVM_C_SVC)
+    svm.setC(1)
+    svm.train(features, cv2.ml.ROW_SAMPLE, labels)
 
-    # 训练分类器
-    svm.train(np.array(features, dtype=np.float32), cv2.ml.ROW_SAMPLE, np.array(labels, dtype=np.int32))
-
-    # 保存分类器
-    svm.save('resources/svm.xml')
+    # 保存模型
+    svm.save('resources/ball_svm.xml')
 
 if __name__ == '__main__':
     main()

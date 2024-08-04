@@ -14,12 +14,13 @@
 
 # 使用cmake也可以实现这些运行脚本、直接启动程序等功能，但是需要调用添加自定义目标函数，个人认为更加繁琐一些。
 
-PROJECT_NAME = contour_inst
+# PROJECT_NAME = contour_inst
 BUILD_DIR = build
 
 CONFIG_FILE = "config/config.json"
 IMAGE_FILE = "resources/kun.png"
-
+VIDEO_FILE = "/home/cake/traditional-vision/resources/OnlyBasketball.mp4"
+SVM_MODEL = "/home/cake/traditional-vision/resources/ball_svm.xml"
 
 # CMake
 # 默认目标
@@ -35,8 +36,15 @@ cmake-build: cmake-configure
 	@cmake --build $(BUILD_DIR)
 
 # 运行项目
-run: cmake-build
-	@cd $(BUILD_DIR) && ./$(PROJECT_NAME)
+contour_inst: cmake-build
+	@echo "If you are running countour_inst, please make init_contour first."
+	@cd $(BUILD_DIR) && ./contour_inst
+
+backsub: cmake-build
+	@cd $(BUILD_DIR) && ./backsub
+
+svm: cmake-build
+	@cd $(BUILD_DIR) && ./svm
 
 gdb-configure:
 	@mkdir -p $(BUILD_DIR)
@@ -45,15 +53,24 @@ gdb-configure:
 gdb-build: gdb-configure
 	@cmake --build $(BUILD_DIR) 
 
-gdb: gdb-build  # 还未验证
-	@cd $(BUILD_DIR) && gdb ./$(PROJECT_NAME)
+gdb-contour_inst: gdb-build  # 还未验证
+	@cd $(BUILD_DIR) && gdb ./contour_inst
+
+gdb-backsub: gdb-build
+	@cd $(BUILD_DIR) && gdb ./backsub
 
 # 运行hsv阈值调试
 hsv: 
-	@python3 scripts/hsv.py $(CONFIG_FILE) $(IMAGE_FILE)
+	@python3 scripts/hsv.py $(CONFIG_FILE) $(VIDEO_FILE)
 
 on_mouse:
 	@python3 scripts/on_mouse.py $(IMAGE_FILE)
+
+train_svm:
+	@python3 scripts/train_svm.py
+
+detect_svm:
+	@python3 scripts/detect_svm.py $(VIDEO_FILE) $(SVM_MODEL)
 
 init_contour:
 	@echo "init contour..."

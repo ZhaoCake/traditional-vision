@@ -31,6 +31,8 @@
 *.out
 *.app
 
+# Self Added
 build/
 .vscode/
 resources/contour
+resources/non_contour
