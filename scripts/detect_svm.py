@@ -32,8 +32,6 @@ def main(video_path, model_path):
         # 提取HOG特征
         hog = cv2.HOGDescriptor((64, 64), (16, 16), (8, 8), (8, 8), 9)
         feature = hog.compute(img).flatten()
-        # feature 的形状
-        print(feature.shape)
 
         # 预测
         result = svm.predict(np.array([feature], dtype=np.float32))
