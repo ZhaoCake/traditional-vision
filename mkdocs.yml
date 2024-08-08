@@ -1,1 +1,36 @@
-site_name: My Docs
+site_name: 传统视觉图像处理(OpenCV C++) By ZhaoCake
+site_url: https://zhaocake.github.io/traditional-vision/
+repo_url: https://github.com/ZhaoCake/traditional-vision
+repo_name: ZhaoCake/traditional-vision
+
+theme:
+  name: material
+  # logo: assert/asuka.jpg
+  favicon: assert/asuka.jpg
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: grey
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: grey
+      toggle:
+        icon: material/brightness-4
+        name: Switch to auto mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+  
+
