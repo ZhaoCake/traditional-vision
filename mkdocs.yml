@@ -3,10 +3,16 @@ site_url: https://zhaocake.github.io/traditional-vision/
 repo_url: https://github.com/ZhaoCake/traditional-vision
 repo_name: ZhaoCake/traditional-vision
 
+nav:
+  - 主页: index.md
+  - 基础阶段: 
+    - 环境配置: basic/00env.md
+    - 摄像头与窗口参数: basic/01camera.md
+
 theme:
   name: material
-  # logo: assert/asuka.jpg
-  favicon: assert/asuka.jpg
+  logo: assert/zhao.png
+  favicon: assert/zhao.png
   palette:
     - media: "(prefers-color-scheme)"
       toggle:
@@ -31,6 +37,30 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
+
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.expand
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.path
+    - toc.follow
+    - navigation.top
+    - navigation.footer
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ZhaoCake
+    - icon: fontawesome/brands/qq
+      link: tencent://message/?uin=2317634877&Site=&Menu=yes
+    - icon: fontawesome/brands/bilibili
+      link: https://space.bilibili.com/1711392619
+    - icon: fontawesome/brands/zhihu
+      link: https://www.zhihu.com/people/42-48-12-1
+    
+copyright: Copyright &copy; 2024 Cake Zhao
 
   
 
