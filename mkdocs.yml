@@ -5,11 +5,39 @@ repo_name: ZhaoCake/traditional-vision
 
 nav:
   - 主页: index.md
+  - 环境配置:
+    - Linux开发环境概述: envs/home.md
+    - 虚拟机安装Ubuntu22.04: envs/VM.md
   - 基础阶段: 
     - 环境配置: basic/00env.md
     - 摄像头与窗口参数: basic/01camera.md
 
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji
+
 theme:
+  icon:
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
   name: material
   logo: assert/zhao.png
   favicon: assert/zhao.png
@@ -48,6 +76,8 @@ theme:
     - toc.follow
     - navigation.top
     - navigation.footer
+    - content.code.copy
+    - content.code.select
 
 extra:
   social:
@@ -59,6 +89,14 @@ extra:
       link: https://space.bilibili.com/1711392619
     - icon: fontawesome/brands/zhihu
       link: https://www.zhihu.com/people/42-48-12-1
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css
+  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
     
 copyright: Copyright &copy; 2024 Cake Zhao
 
