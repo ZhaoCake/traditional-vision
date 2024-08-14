@@ -8,6 +8,8 @@ nav:
   - 环境配置:
     - Linux开发环境概述: envs/home.md
     - 虚拟机安装Ubuntu22.04: envs/VM.md
+    - WSL2安装Ubuntu22.04: envs/WSL2.md
+    - 真机安装Ubuntu22.04: envs/PC.md
   - 基础阶段: 
     - 环境配置: basic/00env.md
     - 摄像头与窗口参数: basic/01camera.md

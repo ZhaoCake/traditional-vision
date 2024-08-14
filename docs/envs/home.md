@@ -1,5 +1,8 @@
 # Linux开发环境概述
 
+!!! Warning "文档建设中……"
+    当前的课程文档与代码仍在建设中，欢迎您通过GitHub提出建议与贡献。
+
 ## 开发环境的选择
 
 本教程所选用的主要环境是ubuntu22.04长支持版本，如果有条件的话，笔者推荐在真机上进行。
@@ -64,18 +67,18 @@
 ### 使用虚拟机搭建开发环境
 
 - 虚拟机软件：
-    - VMWare
-    - Virtualbox
+    - [VMWare](https://www.vmware.com/)
+    - [Virtualbox](https://www.virtualbox.org/)
 
-- Ubuntu2204镜像：
-    - Ubuntu（推荐）
-    - Kubuntu
-    - Xubuntu
-    - Lubuntu
+- Ubuntu2204镜像：笔者提供的都是桌面版镜像，学习阶段和日常使用没有必要使用服务器版。
+    - [Ubuntu（推荐）](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/jammy/ubuntu-22.04.4-desktop-amd64.iso)
+    - [Kubuntu](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/kubuntu/releases/jammy/release/kubuntu-22.04.4-desktop-amd64.iso)
+    - [Xubuntu](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/xubuntu/releases/jammy/release/xubuntu-22.04.4-desktop-amd64.iso)
+    - [Lubuntu](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/lubuntu/releases/jammy/release/lubuntu-22.04.4-desktop-amd64.iso)
 
 !!! question "为什么有这么多Ubuntu？"
 
-    这里为什么有好几种Ubuntu，它们是什么关系？不妨查找相关资料试试。
+    这里为什么有好几种Ubuntu，它们是什么关系？不妨查找相关资料看看是怎么回事。
 
 ### 使用WSL2搭建开发环境
 
@@ -85,7 +88,15 @@
 
 - 启动盘制作软件
     - [Etcher](https://etcher.balena.io/#download-etcher)
-    - Ventoy
-    - 软碟通
-- Windows镜像（你有概率破环你的Windows！谨慎安装双系统。）
-    - 
+    - [Ventoy](https://www.ventoy.net/cn/download.html)
+    - [软碟通](https://ultraiso.net/xiazai.html)
+
+- [Windows镜像](https://hellowindows.cn/)（你有概率破环你的Windows！谨慎安装双系统。）
+
+- Ubuntu2204镜像：见上方
+
+## Linux系统的基本使用
+
+在完成了Ubuntu的安装之后，你应该了解一些Linux的基本使用知识了；这方面的教程或者说明十分丰富。笔者自然不必赘述。
+
+但在众多文档中，笔者尤其推荐[Linux101](https://101.ustclug.org/)，这份文档内容扎实，例子贴近实际，对使用Linux时常用到的命令与概念都有所讲解，可以使你快速上手Linux并且对它有一定的了解——而不仅仅当作一个可以装应用软件的和Windows、Android没什么两样的系统。
