@@ -4,7 +4,9 @@ repo_url: https://github.com/ZhaoCake/traditional-vision
 repo_name: ZhaoCake/traditional-vision
 
 nav:
-  - 主页: index.md
+  - 主页: 
+    - 首页: index.md
+    - 视频列表索引: video.md
   - 环境配置:
     - Linux开发环境概述: envs/home.md
     - 虚拟机安装Ubuntu22.04: envs/VM.md
